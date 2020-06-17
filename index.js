@@ -5,6 +5,18 @@ const path = require('path')
 const server = http.createServer((req, res) => {
   let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url)
   const ext = path.extname(filePath)
+  let contentType = 'text/html'
+
+  switch (ext) {
+    case '.css':
+      contentType: 'text/css'
+      break
+    case '.js':
+      contentType = 'text/javascript'
+      break
+    default:
+      contentType = 'text/html'
+  }
 
   if (!ext) {
     filePath += '.html'
@@ -34,7 +46,8 @@ const server = http.createServer((req, res) => {
   })
 })
 
+const PORT = process.env.PORT || 3000
 
 server.listen(3000, () => {
-  console.log('server has been started');
+  console.log(`server has been started on ${PORT}`);
 })
